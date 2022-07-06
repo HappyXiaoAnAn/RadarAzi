@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar azi test</title>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+</head>
+
+<body>
+
+    <h1>Radar azi test</h1>
+    <div>Position of radar</div>
+    lat: <input id="radar_lat" type="number" value="24.99" min="-90" max="90" onchange="draw()">
+    lon: <input id="radar_lon" type="number" value="121.01" min="-180" max="180" onchange="draw()">
+    <br>
+    azi: <textarea id="azi" value="" rows="1" onchange="draw()"></textarea>
+    <br><br>
+    <canvas id="canvas" height="400" width="400"></canvas>
+    <script src="index.js"></script>
+
+</body>
+
+</html>
