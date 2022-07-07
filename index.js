@@ -5,8 +5,8 @@ var heightCanvas;
 // View parameters
 var xleftView = 0;
 var ytopView = 0;
-var widthViewOriginal = 400;           //actual width and height of zoomed and panned display
-var heightViewOriginal = 400;
+var widthViewOriginal = document.getElementById('canvas').width;           //actual width and height of zoomed and panned display
+var heightViewOriginal = document.getElementById('canvas').height;
 var widthView = widthViewOriginal;           //actual width and height of zoomed and panned display
 var heightView = heightViewOriginal;
 
@@ -52,8 +52,8 @@ function handleMouseMove(event) {
     ytopView -= dy;
     xleftView = Math.max(xleftView, 0);
     ytopView = Math.max(ytopView, 0);
-    xleftView = Math.min(xleftView, 400-widthView);
-    ytopView = Math.min(ytopView, 400-heightView);
+    xleftView = Math.min(xleftView, widthViewOriginal-widthView);
+    ytopView = Math.min(ytopView, heightViewOriginal-heightView);
     }
     lastX = X;
     lastY = Y;
@@ -81,8 +81,8 @@ function handleMouseWheel(event) {
     ytopView = y - heightView/2;
     xleftView = Math.max(xleftView, 0);
     ytopView = Math.max(ytopView, 0);
-    xleftView = Math.min(xleftView, 400-widthView);
-    ytopView = Math.min(ytopView, 400-heightView);
+    xleftView = Math.min(xleftView, widthViewOriginal-widthView);
+    ytopView = Math.min(ytopView, heightViewOriginal-heightView);
 
     draw();
 }
@@ -95,51 +95,51 @@ function draw() {
     if (!canvas.getContext) {
         return;
     }
-    ctx.clearRect(0,0,400,400);
+    ctx.clearRect(0,0,widthViewOriginal,heightViewOriginal);
     
     ctx.setTransform(1,0,0,1,0,0);
     ctx.scale(widthCanvas/widthView, heightCanvas/heightView);
     ctx.translate(-xleftView,-ytopView);
 
-    ctx.drawImage(img, 0, 0, 400, 400);
+    ctx.drawImage(img, 0, 0, widthViewOriginal, heightViewOriginal);
     // set line stroke and line width
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 1;
-    x0 = 118
-    y0 = 20.5
-    dx = 400/6
-    dy = 400/6
+    x0 = 118   // longitude
+    y0 = 20.5  // latitude
+    dx = widthViewOriginal/6    // px/degree
+    dy = heightViewOriginal/6   // px/degree
     lat = document.getElementById("radar_lat").value;
     lon = document.getElementById("radar_lon").value;
 
-    px = (lon-x0)*dx
-    py = 400-(lat-y0)*dy
-    dd = 1/(6378.1370*Math.cos(24.5*Math.PI/180)*2*Math.PI/360)
-    // point
+    px = (lon-x0)*dx                        // position of radar on canvas
+    py = heightViewOriginal-(lat-y0)*dy     // position of radar on canvas
+    dd = 1/(6378.1370*Math.cos(24.5*Math.PI/180)*2*Math.PI/360) // degree/km
+    // point (radar location)
     ctx.fillStyle = 'red'
     ctx.beginPath();
     ctx.arc(px, py, 3, 0, 2*Math.PI);
     ctx.closePath();
     ctx.fill();
-    // circle
+    // circle (radar sweep range)
     ctx.beginPath();
-    ctx.arc(px, py, 150*dd*dx, 0, 2*Math.PI);
+    ctx.arc(px, py, 150*dd*dx, 0, 2*Math.PI); // radar range 150km
     ctx.closePath();
     ctx.stroke();
 
     // azi
     draw_azi();
 
-    // draw a out-line
+    // draw canvas out-line
     ctx.strokeStyle = 'black';
     ctx.setTransform(1,0,0,1,0,0);
     ctx.scale(1, 1);
     ctx.translate(0,0);
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(400, 0);
-    ctx.lineTo(400, 400);
-    ctx.lineTo(0, 400);
+    ctx.lineTo(widthViewOriginal, 0);
+    ctx.lineTo(widthViewOriginal, heightViewOriginal);
+    ctx.lineTo(0, heightViewOriginal);
     ctx.lineTo(0, 0);
     ctx.stroke();
 
