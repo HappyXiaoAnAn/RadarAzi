@@ -2,6 +2,7 @@ var canvas;
 var ctx;
 var widthCanvas;
 var heightCanvas;
+
 // View parameters
 var xleftView = 0;
 var ytopView = 0;
@@ -9,6 +10,14 @@ var widthViewOriginal = document.getElementById('canvas').width;           //act
 var heightViewOriginal = document.getElementById('canvas').height;
 var widthView = widthViewOriginal;           //actual width and height of zoomed and panned display
 var heightView = heightViewOriginal;
+
+// img parameter
+var img = new Image;
+img.src = document.getElementById('imgurl').value;
+var imglat0 = document.getElementById('imglat0').value;
+var imglon0 = document.getElementById('imglon0').value;
+var imgwidth = document.getElementById('imgwidth').value;
+var imgheight = document.getElementById('imgheight').value;
 
 window.addEventListener("load",setup,false);
 
@@ -87,9 +96,6 @@ function handleMouseWheel(event) {
     draw();
 }
 
-img = new Image;
-img.src = "https://www.cwb.gov.tw/Data/radar/CV1_TW_1000_forPreview.png"
-
 function draw() {
 
     if (!canvas.getContext) {
@@ -105,10 +111,10 @@ function draw() {
     // set line stroke and line width
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 1;
-    x0 = 118   // longitude
-    y0 = 20.5  // latitude
-    dx = widthViewOriginal/6    // px/degree
-    dy = heightViewOriginal/6   // px/degree
+    x0 = imglon0   // longitude
+    y0 = imglat0   // latitude
+    dx = widthViewOriginal/imgwidth     // px/degree
+    dy = heightViewOriginal/imgheight   // px/degree
     lat = document.getElementById("radar_lat").value;
     lon = document.getElementById("radar_lon").value;
 
@@ -157,4 +163,12 @@ function draw_azi() {
         ctx.lineTo(px_end, py_end);
         ctx.stroke();
     });
+}
+
+function changeimg() {
+    img.src = document.getElementById('imgurl').value;
+    imglon0 = document.getElementById('imglon0').value;
+    imglat0 = document.getElementById('imglat0').value;
+    imgwidth = document.getElementById('imgwidth').value;
+    imgheight = document.getElementById('imgheight').value;
 }
