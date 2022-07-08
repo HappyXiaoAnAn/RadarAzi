@@ -14,10 +14,10 @@ var heightView = heightViewOriginal;
 // img parameter
 var img = new Image;
 img.src = document.getElementById('imgurl').value;
-var imglat0 = document.getElementById('imglat0').value;
-var imglon0 = document.getElementById('imglon0').value;
-var imgwidth = document.getElementById('imgwidth').value;
-var imgheight = document.getElementById('imgheight').value;
+var imglat_start = document.getElementById('imglat_start').value;
+var imglon_start = document.getElementById('imglon_start').value;
+var imglat_end = document.getElementById('imglat_end').value;
+var imglon_end = document.getElementById('imglon_end').value;
 
 window.addEventListener("load",setup,false);
 
@@ -111,12 +111,13 @@ function draw() {
     // set line stroke and line width
     ctx.strokeStyle = 'red';
     ctx.lineWidth = 1;
-    x0 = imglon0   // longitude
-    y0 = imglat0   // latitude
-    dx = widthViewOriginal/imgwidth     // px/degree
-    dy = heightViewOriginal/imgheight   // px/degree
+    x0 = imglon_start   // longitude
+    y0 = imglat_start   // latitude
+    dx = widthViewOriginal/(imglon_end-imglon_start)     // px/degree
+    dy = heightViewOriginal/(imglat_end-imglat_start)   // px/degree
     lat = document.getElementById("radar_lat").value;
     lon = document.getElementById("radar_lon").value;
+    rng = document.getElementById("radar_range").value;
 
     px = (lon-x0)*dx                        // position of radar on canvas
     py = heightViewOriginal-(lat-y0)*dy     // position of radar on canvas
@@ -129,7 +130,7 @@ function draw() {
     ctx.fill();
     // circle (radar sweep range)
     ctx.beginPath();
-    ctx.arc(px, py, 150*dd*dx, 0, 2*Math.PI); // radar range 150km
+    ctx.arc(px, py, rng*dd*dx, 0, 2*Math.PI); // radar range
     ctx.closePath();
     ctx.stroke();
 
@@ -156,8 +157,8 @@ function draw_azi() {
     azis = document.getElementById("azi").value.split(" ");
     azis.forEach(azi => {
         if(azi=="") return
-        px_end = px+150*dd*dx*Math.sin(azi*Math.PI/180)
-        py_end = py-150*dd*dx*Math.cos(azi*Math.PI/180)
+        px_end = px+rng*dd*dx*Math.sin(azi*Math.PI/180)
+        py_end = py-rng*dd*dx*Math.cos(azi*Math.PI/180)
         ctx.beginPath();
         ctx.moveTo(px, py);
         ctx.lineTo(px_end, py_end);
@@ -167,8 +168,18 @@ function draw_azi() {
 
 function changeimg() {
     img.src = document.getElementById('imgurl').value;
-    imglon0 = document.getElementById('imglon0').value;
-    imglat0 = document.getElementById('imglat0').value;
-    imgwidth = document.getElementById('imgwidth').value;
-    imgheight = document.getElementById('imgheight').value;
+    imglat_start = document.getElementById('imglat_start').value;
+    imglon_start = document.getElementById('imglon_start').value;
+    imglat_end = document.getElementById('imglat_end').value;
+    imglon_end = document.getElementById('imglon_end').value;
+
+    ctx.clearRect(0,0,widthViewOriginal,heightViewOriginal)
+    ctx.fillStyle = 'black';
+    ctx.fillText("Londing...",200,200)
+    ctx.fillStyle = 'red';
+    img.onerror = () => {
+        ctx.clearRect(0,0,widthViewOriginal,heightViewOriginal)
+        ctx.fillText("ERROR",200,200)
+    }
+    img.onload = draw;
 }

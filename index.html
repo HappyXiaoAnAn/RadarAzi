@@ -16,20 +16,22 @@
 
     <h1>Radar azi test</h1>
     <div>Location of radar</div>
-    lat: <input id="radar_lat" type="number" value="24.99" min="-90" max="90" onchange="draw()">
-    lon: <input id="radar_lon" type="number" value="121.01" min="-180" max="180" onchange="draw()">
+    lat: <input id="radar_lat" type="number" value="24.99054" min="-90" max="90" onchange="draw()">
+    lon: <input id="radar_lon" type="number" value="121.01263" min="-180" max="180" onchange="draw()">
+    range: <input id="radar_range" type="number" value="150" min="0" max="1000" onchange="draw()">
     <br><br>
-    azi: <textarea id="azi" value="" rows="3" onchange="draw()">0 72 144 216 288</textarea>
+    azi: <textarea id="azi" value="" rows="3" onchange="draw()">190.2 192.2 194.2 196.2 198.2 200.2 209.1 299</textarea>
     <br><br>
     <canvas id="canvas" height="400" width="400"></canvas>
-    <br><br>
-    <h3>Change img</h3>
+    <br><hr>
+    <h3>Change the background image</h3>
     url: <input id='imgurl' type="text" value="https://www.cwb.gov.tw/Data/radar/CV1_TW_1000_forPreview.png"><br>
-    lat0=<input id='imglat0' type="number" value="20.5" min="-90" max="90"><br>
-    lon0=<input id='imglon0' type="number" value="118" min="-180" max="180"><br>
-    width:  <input id='imgwidth' type="number" value="6"> ( degree )<br>
-    height: <input id='imgheight' type="number" value="6"> ( degree )<br>
-    <button onclick='changeimg()'>change</button>
+    <div><b>Setting the boundaries of image</b><br>
+    <div>&emsp;&emsp;&emsp;&emsp;lat_end=<input id='imglat_end' type="number" value="26.5" min="-90" max="90"></div><br>
+    <div>lon_start=<input id='imglon_start' type="number" value="118" min="-180" max="180">
+    lon_end=<input id='imglon_end' type="number" value="124" min="-180" max="180"></div><br>
+    <div>&emsp;&emsp;&emsp;&emsp;lat_start=<input id='imglat_start' type="number" value="20.5" min="-90" max="90"></div><br>
+    <button onclick='changeimg()'>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;change&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</button></div>
     <script src="index.js"></script>
 
 </body>
