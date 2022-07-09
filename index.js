@@ -71,6 +71,7 @@ function handleMouseMove(event) {
 }
 
 function handleMouseWheel(event) {
+    event.preventDefault()
     var x = widthView/2 + xleftView;  // View coordinates
     var y = heightView/2 + ytopView;
 
