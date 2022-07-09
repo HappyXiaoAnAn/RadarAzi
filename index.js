@@ -63,11 +63,11 @@ function handleMouseMove(event) {
     ytopView = Math.max(ytopView, 0);
     xleftView = Math.min(xleftView, widthViewOriginal-widthView);
     ytopView = Math.min(ytopView, heightViewOriginal-heightView);
+    draw();
     }
     lastX = X;
     lastY = Y;
 
-    draw();
 }
 
 function handleMouseWheel(event) {
@@ -176,11 +176,11 @@ function changeimg() {
 
     ctx.clearRect(0,0,widthViewOriginal,heightViewOriginal)
     ctx.fillStyle = 'black';
-    ctx.fillText("Londing...",200,200)
+    ctx.fillText("Londing...",widthViewOriginal/2,heightViewOriginal/2)
     ctx.fillStyle = 'red';
     img.onerror = () => {
         ctx.clearRect(0,0,widthViewOriginal,heightViewOriginal)
-        ctx.fillText("ERROR",200,200)
+        ctx.fillText("ERROR",widthViewOriginal/2,heightViewOriginal/2)
     }
     img.onload = draw;
 }
