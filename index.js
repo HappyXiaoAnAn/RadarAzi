@@ -19,6 +19,7 @@ var imglon_start = document.getElementById('imglon_start').value;
 var imglat_end = document.getElementById('imglat_end').value;
 var imglon_end = document.getElementById('imglon_end').value;
 
+document.getElementById("imgsrcswitcher").addEventListener('click', (e)=>toggleImgSrc(e));
 window.addEventListener("load",setup,false);
 
 function setup() {
@@ -168,7 +169,19 @@ function draw_azi() {
 }
 
 function changeimg() {
-    img.src = document.getElementById('imgurl').value;
+    if (document.getElementById("imgsrcswitcher").checked) {
+        // image from local file
+        var file = document.getElementById("filein").files[0];
+        var fr = new FileReader();
+        fr.onload=(e)=>{
+            img.src = e.target.result;
+        }
+        fr.readAsDataURL(file);
+    } else {
+        // image from url
+        img.src = document.getElementById('imgurl').value;
+    }
+
     imglat_start = document.getElementById('imglat_start').value;
     imglon_start = document.getElementById('imglon_start').value;
     imglat_end = document.getElementById('imglat_end').value;
@@ -183,4 +196,14 @@ function changeimg() {
         ctx.fillText("ERROR",widthViewOriginal/2,heightViewOriginal/2)
     }
     img.onload = draw;
+}
+
+function toggleImgSrc(e) {
+    if (e.target.checked == false){
+        document.getElementById("toggleurl").style.display="inline"
+        document.getElementById("togglelocalfile").style.display="none"
+    } else {
+        document.getElementById("toggleurl").style.display="none"
+        document.getElementById("togglelocalfile").style.display="inline"
+    }
 }

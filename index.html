@@ -26,6 +26,57 @@
                 width: 100%;
             }
         }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #00cc11;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 13px;
+            width: 13px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
+        }
     </style>
 </head>
 
@@ -47,13 +98,30 @@
     <div class="buttom">
         <hr>
         <h3>Change the background image</h3>
-        url: <input id='imgurl' type="text" value="https://www.cwa.gov.tw/Data/radar/CV1_TW_1000.png"><br>
-        <div><b>Boundaries of the image: </b><br>
-        <div>&emsp;&emsp;&emsp;&emsp;lat_end=<input id='imglat_end' type="number" value="26.5" min="-90" max="90"></div><br>
-        <div>lon_start=<input id='imglon_start' type="number" value="118" min="-180" max="180">
-        lon_end=<input id='imglon_end' type="number" value="124" min="-180" max="180"></div><br>
-        <div>&emsp;&emsp;&emsp;&emsp;lat_start=<input id='imglat_start' type="number" value="20.5" min="-90" max="90"></div><br>
-        <button onclick='changeimg()'>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;change&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</button></div>
+
+        <label>img source:
+            <span>url</span>
+            <label class="switch">
+                <input type="checkbox" id="imgsrcswitcher">
+                <span class="slider"></span>
+            </label>
+            <span>local file</span><br>
+        </label>
+        <span id="toggleurl" style="display:initial">url: <input id='imgurl' type="text" value="https://www.cwa.gov.tw/Data/radar/CV1_TW_1000.png"></span>
+        <span id="togglelocalfile" style="display:none">local file: <input type="file" id="filein"></span>
+        <br>
+        <div>
+            <b>Boundaries of the image: </b>
+            <br>
+            <div>&emsp;&emsp;&emsp;&emsp;lat_end=<input id='imglat_end' type="number" value="26.5" min="-90" max="90"></div>
+            <br>
+            <div>lon_start=<input id='imglon_start' type="number" value="118" min="-180" max="180">
+            lon_end=<input id='imglon_end' type="number" value="124" min="-180" max="180"></div>
+            <br>
+            <div>&emsp;&emsp;&emsp;&emsp;lat_start=<input id='imglat_start' type="number" value="20.5" min="-90" max="90"></div>
+            <br>
+            <button onclick='changeimg()'>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;change&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</button>
+        </div>
     </div>
     </div><!-- container -->
     <script src="index.js"></script>
